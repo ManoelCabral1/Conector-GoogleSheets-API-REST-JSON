@@ -110,7 +110,7 @@ function updateIds(){
      const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("ID_EMPRESAS");
      const cell = sheet.getRange("A1");
      
-     const url = "https://api.zeeng.com.br/empresa/getempresas?chave=6ba108b1097b48238d414b9296cb05a3"
+     const url = "https://api.zeeng.com.br/empresa/getempresas?chave=APIkey"
      cell.clear();
      cell.setFormula(`=ImportJSON("${url}")`) 
 }
