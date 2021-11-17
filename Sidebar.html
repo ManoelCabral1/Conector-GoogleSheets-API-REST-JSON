@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <script> 
+    <!- Função para coletar os dados do formulário, formatar a url de consulta e repassa a função insertData ->
+      function getUrl() { 
+         var NomePlanilha = document.getElementById("NomePlanilha").value;
+         var dataInicial = document.getElementById("dataInicial").value;
+         var dataFinal =  document.getElementById("dataFinal").value;
+         var IDs = document.getElementById("idEmpresas").value;
+         
+         var baseUrl = "https://api.zeeng.com.br/indicadores/stats?chave=6ba108b1097b48238d414b9296cb05a3";
+         var IdArray = IDs.split(",");
+  
+         var empresas = IdArray.map(function(id){
+                       return "&empresas[]=" + id;      
+                 }).join('');
+  
+         var url = baseUrl + empresas + "&datainicial=" + dataInicial + "&datafinal=" + dataFinal + "&periodo=1";
+          
+         google.script.run.insertData(NomePlanilha, url); 
+       } 
+      
+  </script>
+  
+   <style>
+     body {
+          align-items: center;
+          background-color: #000;
+          display: flex;
+          justify-content: center;
+          height: 100vh;
+     }
+     
+     .form {
+          background-color: #15172b;
+          border-radius: 20px;
+          box-sizing: border-box;
+          height: 500px;
+          padding: 20px;
+          width: 320px;
+     }
+     
+     .title {
+          color: #eee;
+          font-family: sans-serif;
+          font-size: 28px;
+          font-weight: 600;
+          margin-top: 30px;
+     }
+
+    .subtitle {
+         color: #eee;
+         font-family: sans-serif;
+         font-size: 16px;
+         font-weight: 600;
+         margin-top: 10px;
+     }
+     
+     .label {
+         color: #eee;
+         font-family: sans-serif;
+         font-size: 16px;
+         font-weight: 600;
+         margin-top: 10px;
+     }
+     
+     .input-container {
+         height: 50px;
+         position: relative;
+         width: 100%;
+     }
+
+     .ic1 {
+         margin-top: 40px;
+     }
+     
+     .input {
+         background-color: #303245;
+         border-radius: 12px;
+         border: 0;
+         box-sizing: border-box;
+         color: #eee;
+         font-size: 18px;
+         height: 100%;
+         outline: 0;
+         padding: 4px 20px 0;
+         width: 100%;
+     }
+     
+     .cut {
+        background-color: #15172b;
+        border-radius: 10px;
+        height: 20px;
+        left: 20px;
+        position: absolute;
+        top: -20px;
+        transform: translateY(0);
+        transition: transform 200ms;
+        width: 76px;
+    }
+    
+    .submit {
+        background-color: #08d;
+        border-radius: 12px;
+        border: 0;
+        box-sizing: border-box;
+        color: #eee;
+        cursor: pointer;
+        font-size: 18px;
+        height: 50px;
+        margin-top: 38px;
+       // outline: 0;
+        text-align: center;
+        width: 100%;
+    }
+
+     .submit:active {
+        background-color: #06b;
+    }
+   </style>
+   
+  <body>
+     <form class="form">
+           <div class="title">Coleta de dados da API ZEENG</div>
+           <div class="subtitle">Preencha os campos para pesquisa</div>
+           <div class="input-container ic1">
+                 <label for="NomePlanilha" class="label ic1 ">Nome da planilha</label><br>
+                 <input type="text" id="NomePlanilha" name="NomePlanilha" class="input" placeholder="Empresa 1">
+                  <div class="cut"></div>
+                 <label for="dataInicial" class="label ic1 ">Data Inicial</label><br>
+                 <input type="text" id="dataInicial" name="dataInicial" class="input" placeholder="yyyy-mm-dd">
+                  <div class="cut"></div>
+                 <label for="dataFinal" class="label">Data Final</label><br>
+                 <input type="text" id="dataFinal" name="dataFinal" class="input" placeholder="yyyy-mm-dd">
+                  <div class="cut"></div>
+                 <label for="idEmpresas" class="label ic1 ">ID das Empresas</label><br>
+                 <input type="text" id="idEmpresas" name="idEmpresas" class="input" placeholder="ID1,ID2,..."><br>
+                 <input type = "button" class = "submit" value = "Pesquisar" onclick = "getUrl();"> 
+            </div>
+     </form>
+  </body>
+</html>
